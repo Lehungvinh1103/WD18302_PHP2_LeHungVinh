@@ -1,0 +1,16 @@
+{
+    "name": "lab_3/bai_4",
+    "description": "bai 4",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lehungvinh1103",
+            "email": "lehungvinh210621@gmail.com"
+        }
+    ],
+    "require": {}
+}
