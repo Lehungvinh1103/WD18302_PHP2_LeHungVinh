@@ -7,7 +7,8 @@ use App\core\BaseController;
 class HomeController extends BaseController{
     
     public function index() {
-        echo 'Trang Home';
+        $this->setLayout('mainLayout');
+        $this->render('home', ['title' => 'FileMaster', 'homeActive' => 'active']);
     }
     
 }
