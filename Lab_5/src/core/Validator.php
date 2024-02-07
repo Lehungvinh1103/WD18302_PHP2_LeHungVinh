@@ -30,6 +30,31 @@ class Validator {
         }
     }
 
+    public function validatePassword($field, $message = null) {
+        $password = $this->data[$field];
+
+        // Password 6 ky tu
+        if (strlen($password) < 6) {
+            $this->addError($field, $message ?: ucfirst($field) . ' phải chứa ít nhất 6 ký tự.');
+        }
+
+        // ky tu dat biet
+        if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)) {
+            $this->addError($field, $message ?: ucfirst($field) . ' phải chứa ít nhất một ký tự đặc biệt.');
+        }
+
+    }
+
+    public function validateConfirmedPassword($field, $confirmationField, $message = null) {
+        $password = $this->data[$field];
+        $confirmation = $this->data[$confirmationField];
+
+        // Check pass
+        if ($password !== $confirmation) {
+            $this->addError($field, $message ?: ucfirst($field) . ' không khớp với xác nhận mật khẩu.');
+        }
+    }
+
 
     public function passes() {
         return empty($this->errors);

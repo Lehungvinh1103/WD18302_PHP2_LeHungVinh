@@ -1,9 +1,7 @@
 <?php
-
 require_once __DIR__.'/vendor/autoload.php';
 session_start();
 
-use App\controller;
 use App\core\Response;
 use App\core\Render;
 

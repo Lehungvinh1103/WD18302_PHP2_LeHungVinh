@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 if (document.querySelector('#form-login')) {
 
@@ -23,14 +24,19 @@ if (document.querySelector('#form-login')) {
                 .then(response => {
                     console.log(response.data);
                     if (response.data.success) {
-                        window.location.href = '/';
+                        Swal.fire({
+                            title: 'Đăng nhập thành công',
+                            icon: 'success',
+                        }).then(result => {
+                            if(result.isConfirmed) {
+                                window.location.href = '/';
+                            }
+                        })
                     } else {
-                        const error = document.getElementById('errMessage');
-
-                        if (error) {
-                            const errorMessage = 'Email hoặc mật khẩu không đúng';
-                            error.innerHTML = `<p>${errorMessage}</p>`;
-                        } 
+                        Swal.fire({
+                            title: 'Lỗi! Email hoặc mật khẩu không đúng',
+                            icon: 'error',
+                        })
                     }
                 })
                 .catch(error => {

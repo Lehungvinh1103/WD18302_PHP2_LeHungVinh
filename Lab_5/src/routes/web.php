@@ -4,8 +4,6 @@ use App\controllers\AuthController;
 use App\core\Route as Router;
 use App\controllers\FilesController;
 use App\controllers\HomeController;
-use App\controllers\SignupController;
-use App\controllers\TestController;
 use App\controllers\TrashController;
 
 
@@ -17,8 +15,7 @@ $router->register('/my-file', [FilesController::class, 'list']);
 $router->register('/thung-rac', [TrashController::class, 'index']);
 $router->register('/dang-nhap', [AuthController::class, 'login']);
 $router->register('/dang-xuat', [AuthController::class, 'logout']);
-$router->register('/dang-ky', [SignupController::class, 'index']);
-// $router->register('/test', [TestController::class, 'handleLogin']);
+$router->register('/dang-ky', [AuthController::class, 'signUp']);
 
 
 

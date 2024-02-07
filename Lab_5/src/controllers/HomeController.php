@@ -13,7 +13,8 @@ class HomeController extends BaseController
         if (isset($_SESSION['user'])) {
             $this->setLayout('mainLayout');
             $this->render('home', ['title' => 'FileMaster', 'homeActive' => 'active']);
+        } else {
+            $this->redirect('dang-nhap');
         }
-        $this->redirect('dang-nhap');
     }
 }

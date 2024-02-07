@@ -6,27 +6,32 @@
                 <p class="mb-0">Register with us today </p>
             </div>
             <div class="card-body">
-                <form role="form text-left">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="email-addon">
+                <form role="form text-left" action="dang-ky" method="post" id="form-signUp">
+                    <div class="mb-3 form-group ">
+                        <input type="text" class="form-control" name="username" placeholder="Username" aria-label="Username" aria-describedby="email-addon">
+                        <div class="form-message text-danger"></div>                   
                     </div>
-                    <div class="mb-3">
-                        <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+                    <div class="mb-3 form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+                        <div class="form-message text-danger"></div>                    
                     </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                    <div class="mb-3 form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                        <div class="form-message text-danger"></div>                    
                     </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="password-addon">
+                    <div class="mb-3 form-group">
+                        <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="password-addon">
+                        <div class="form-message text-danger"></div>                    
                     </div>
                     <!-- <div class="form-check form-check-info text-left">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                        <div class="form-message text-danger"></div>                                    
                                         <label class="form-check-label" for="flexCheckDefault">
                                             I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
                                         </label>
-                                    </div> -->
+                        <div class="form-message text-danger"></div>                                    </div> -->
                     <div class="text-center">
-                        <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                        <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
                     </div>
                 </form>
             </div>

@@ -112,12 +112,12 @@ trait QueryBuilder
         return $this;
     }
 
-    // public function insert($data)
-    // {
-    //     $tableName = $this->tableName;
-    //     $insertStatus = $this->insertData($tableName, $data);
-    //     return $insertStatus;
-    // }
+    public function insert($data)
+    {
+        $tableName = $this->tableName;
+        $insertStatus = $this->create($tableName, $data);
+        return $insertStatus;
+    }
 
     // public function update($data)
     // {
