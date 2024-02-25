@@ -132,7 +132,6 @@ trait QueryBuilder
     {
         $whereDelete = str_replace('WHERE', '', $this->where);
         $whereDelete = trim($whereDelete);
-        echo $whereDelete;
         $tableName = $this->tableName;
         $deleteStatus = $this->remove($tableName, $whereDelete);
         return $whereDelete;

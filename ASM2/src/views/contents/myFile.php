@@ -23,14 +23,14 @@
 
           <div class="form-group mb-0">
             <input type="file" name="files[]" id="upload" class="account-file-input form-control" multiple />
-            <div class="form-message"></div>
+            <div class="form-message text-danger"></div>
           </div>
 
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn bg-gradient-primary">Create</button>
+          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn bg-gradient-primary">Tải lên</button>
         </div>
       </form>
     </div>
@@ -85,7 +85,8 @@
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($dataFile as $fileItems) :
+            <?php foreach ($dataFile as $fileItems) : ?>
+              <?php
               $timestamp = strtotime($fileItems['created_at']);
 
               // Lấy ngày, tháng, năm từ timestamp
@@ -93,7 +94,12 @@
               $month = date('m', $timestamp);
               $year = date('Y', $timestamp);
 
-            ?>
+              $full_filename = $fileItems['file_name'];
+              $newFull_filename = explode(".", $full_filename);
+
+              $file_name = $newFull_filename[0];
+              $file_ex = $newFull_filename[1];
+              ?>
               <tr>
                 <td>
                   <div class="d-flex px-2 py-1" id-data="<?= $fileItems['file_id'] ?>">
@@ -111,7 +117,7 @@
                 </td>
                 <td class="align-middle text-center text-sm">
                   <span class="badge badge-sm">
-                    <img width="30px" class="rounded-circle" src="../../../public/assets/img/team-1.jpg" alt="">
+                    <img width="30px" class="rounded-circle" src="<?php __DIR__?>/public/assets/img/no-img-user.png" alt="">
                   </span>
                 </td>
                 <td class="align-middle">
@@ -132,23 +138,28 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownAct">
                       <form id="formDownload" action="downloadFile" class="dropdown-item" method="post" enctype="multipart/form-data">
                         <input type="text" hidden name="file_name" value="<?= $fileItems['file_name'] ?>">
-                        <button class="border-0" type="submit"><i class="bi bi-download me-2"></i><span class="font-weight-bold">Download</span></button>
+                        <input type="text" hidden name="file_id" value="<?= $fileItems['file_id'] ?>">
+                        <button class="border-0" type="submit"><i class="bi bi-download me-2"></i><span class="font-weight-bold">Tải xuống</span></button>
                       </form>
                       <!-- <a class="dropdown-item" href="my-file?id=<?= $fileItems['file_id'] ?>"><i class="bi bi-download"></i> <label class="mb-0" for="">Download</label></a> -->
                       <form id="formRemove" action="moveToBin" class="dropdown-item" method="post" enctype="multipart/form-data">
-                        <input type="text" hidden name="file_id" value="<?= $fileItems['file_id'] ?>">
-                        <button class="border-0" type="submit"> <i class="bi bi-trash me-2"></i><span class="font-weight-bold">Move to bin</span>
+                        <div class="form-group m-0">
+                          <input type="text" hidden name="file_id" value="<?= $fileItems['file_id'] ?>">
+                          <div class="form-message"></div>
+                        </div>
+                        <button class="border-0" type="submit" > <i class="bi bi-trash me-2"></i><span class="font-weight-bold">Thùng rác</span>
                         </button>
                       </form>
                       <li class="dropdown-item">
-                        <button class="border-0 edit-btn" data-bs-toggle="modal" data-bs-target="#modalRename"><i class="bi bi-pencil-square me-2"></i><span class="font-weight-bold">Rename</span></button>
+                        <button class="border-0 btn-rename font-weight-bold" data-id="<?= $fileItems['file_id'] ?>" data-bs-toggle="modal" data-bs-target="#modalRename_<?= $fileItems['file_id'] ?>"><i class="bi bi-pencil-square me-2"></i>Rename</button>
                       </li>
                     </ul>
                   </div>
                 </td>
               </tr>
               <!-- modal rename -->
-              <div class="modal fade" id="modalRename" tabindex="-1" role="dialog" aria-labelledby="modalRenameLabel" aria-hidden="true">
+
+              <div class="modal fade" id="modalRename_<?= $fileItems['file_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="modalRenameLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -157,21 +168,25 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <form id="formRename" method="post" class="" enctype="multipart/form-data">
+                    <form method="post" action="renameFile" id="formRe_<?= $fileItems['file_id'] ?>" enctype="multipart/form-data">
                       <div class="modal-body">
                         <div class="form-group mb-0">
-                          <input type="text" name="file_rename" id="file_rename" value="<?=$fileItems['file_name']?>" class="account-file-input form-control" multiple />
-                          <div class="form-message"></div>
+                          <input type="text" hidden name="file_id" value="<?= $fileItems['file_id'] ?>">
+                          <input type="text" hidden name="old_file_name" value="<?= $fileItems['file_name'] ?>">
+                          <input type="text" hidden name="file_ex" value="<?= $file_ex ?>">
+                          <input type="text" name="file_name_<?= $fileItems['file_id'] ?>" id="file_name" value="<?= $file_name ?>" class="account-file-input form-control ">
+                          <div class="mess form-message text-danger"></div>
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn bg-gradient-primary">Create</button>
+                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn bg-gradient-primary">Ok</button>
                       </div>
                     </form>
                   </div>
                 </div>
               </div>
+
             <?php endforeach;
             function formatSizeUnits($bytes)
             {

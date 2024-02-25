@@ -17,12 +17,17 @@ $router->register('/downloadFile', [FilesController::class, 'downloadFile']);
 $router->register('/moveToBin', [FilesController::class, 'moveToBin']);
 $router->register('/restoreFile', [TrashController::class, 'restoreFile']);
 $router->register('/deleteFile', [TrashController::class, 'deleteFile']);
+$router->register('/renameFile', [FilesController::class, 'renameFile']);
 $router->register('/test', [FilesController::class, 'test']);
 $router->register('/tai-khoan', [AuthController::class, 'account']);
 $router->register('/thung-rac', [TrashController::class, 'index']);
 $router->register('/dang-nhap', [AuthController::class, 'login']);
 $router->register('/dang-xuat', [AuthController::class, 'logout']);
 $router->register('/dang-ky', [AuthController::class, 'signUp']);
+$router->register('/updateInfo', [AuthController::class, 'updateInfo']);
+$router->register('/updatePass', [AuthController::class, 'updatePass']);
+
+
 
 
 /**

@@ -5,21 +5,26 @@ namespace App\controllers;
 use App\core\BaseController;
 use App\core\Response;
 use App\models\FileModel as ModelsFileModel;
+use DateTime;
 
 class FilesController extends BaseController
 {
 
     public function list()
     {
-
-        $user_id = $_SESSION['user']['user_id'];
+        if(isset($_SESSION['user'])){
+            $user_id = $_SESSION['user']['user_id'];
 
         $fileModel = new ModelsFileModel;
 
         $dataFile =  $fileModel->getAllFileBy_user($user_id);
 
         $this->setLayout('mainLayout');
-        $this->render('myFile', ['title' => 'File', 'fileActive' => 'active', 'dataFile' => $dataFile]);
+        $this->render('myFile', ['title' => 'My file', 'fileActive' => 'active', 'dataFile' => $dataFile]);
+        }else {
+            $this->redirect('dang-nhap');
+        }
+        
     }
 
     public function addFile()
@@ -54,17 +59,20 @@ class FilesController extends BaseController
                         $addFile = $file->addFile($dataFile);
 
                         if ($addFile) {
-                            $response = new Response();
-                            $response->setJsonContent([
-                                'status' => 'success'
-                            ])->send();
+                            $flag = true;
                         }
                     } else {
                         $this->redirect('my-file');
                     }
                 }
+                if ($flag) {
+                    $response = new Response();
+                    $response->setJsonContent([
+                        'status' => 'success'
+                    ])->send();
+                }
             } else {
-                $this->redirect('my-file');
+                $this->redirect($this->getReferer());
             }
         }
     }
@@ -75,6 +83,7 @@ class FilesController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $file_name = $_POST['file_name'];
+            $file_id = $_POST['file_id'];
 
             $filePath = "public/uploads/" . "$file_name";
             if (file_exists($filePath)) {
@@ -87,17 +96,21 @@ class FilesController extends BaseController
                 header('Content-Length: ' . filesize($filePath));
 
                 // Đọc file và đưa nó ra output
+                $fileModel = new ModelsFileModel();
+                $fileModel->updateDownloadCount($file_id);
                 readfile($filePath);
+
                 exit;
             } else {
-                echo "không";
+                // echo "không";
             }
         }
     }
 
-    public function moveToBin(){
+    public function moveToBin()
+    {
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $file_id = $_POST['file_id'];
 
@@ -108,11 +121,56 @@ class FilesController extends BaseController
             $fileModel = new ModelsFileModel();
 
             $updateFile = $fileModel->removeToBin($file_id, $dataUpdate);
-            
-            if($updateFile){
-                $this->redirect('/my-file');
-            }
 
+            if ($updateFile) {
+                $this->redirect($this->getReferer());
+            }
+        }
+    }
+
+    public function renameFile()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            date_default_timezone_set("Asia/Ho_Chi_Minh");
+
+            $file_id = $_POST['file_id'];
+            $file_ex = $_POST['file_ex'];
+            $file_name = $_POST['file_name'."_$file_id"];
+            $old_file_name = $_POST['old_file_name'];
+            $file_rename = $file_name . '.' . $file_ex;
+            $updated_at = date("Y-m-d H:i:s");
+            $dataUpdate = [
+                'file_name' => $file_rename,
+                'updated_at' => $updated_at
+            ];
+
+            $fileModel = new ModelsFileModel();
+
+            $updateFile = $fileModel->rename($file_id, $dataUpdate);
+
+            if ($updateFile) {
+
+                $uploadsDirectory = 'public/uploads/';
+
+                $old_FilePath = $uploadsDirectory . $old_file_name;
+                $new_FilePath = $uploadsDirectory . $file_rename;
+
+                if (file_exists($old_FilePath)) {
+                    // Tiến hành rename file
+                    if (rename($old_FilePath, $new_FilePath)) {
+                        $this->redirect($this->getReferer());
+                    } else {
+                        echo 'Không thể rename file.';
+                    }
+                } else {
+                    echo 'File cũ không tồn tại.';
+                }
+                // $this->redirect($this->getReferer());
+                
+            }
         }
     }
 }
+

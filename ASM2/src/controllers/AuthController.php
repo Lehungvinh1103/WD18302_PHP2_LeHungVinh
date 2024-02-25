@@ -111,7 +111,75 @@ class AuthController extends BaseController
 
     public function account()
     {
-        $this->setLayout('mainLayout');
-        $this->render('profile', ['title' => 'Tài khoản']);
+        if (isset($_SESSION['user'])) {
+
+            $user_id = $_SESSION['user']['user_id'];
+            $userModel = new UserModel();
+            $dataUser =  $userModel->getUserById($user_id);
+
+            $this->setLayout('mainLayout');
+        $this->render('profile', ['title' => 'Tài khoản', 'dataUser' => $dataUser]);
+        } else {
+            $this->redirect('dang-nhap');
+        }
+        
+    }
+
+    public function updateInfo()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $dataPost = $this->request->getBody();                                   
+
+                $user = new UserModel();
+                extract($dataPost);
+                ($gender == 'Male') ? $gender = 0 : $gender = 1;
+
+                $newData = [
+                    'fullname' => $fullname,
+                    'gender' => $gender,
+                    'phone' => $phone,
+                ];
+
+                $result = $user->updateUser($email, $newData);
+
+                if ($result) {
+                    $this->response->setJsonContent(['status' => 'success'])->send();
+                }
+        } 
+        
+    }
+
+    public function updatePass()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $dataPost = $this->request->getBody();                                   
+
+                $user = new UserModel();
+                extract($dataPost);
+                $id = $user_id;
+                
+                $checkPass = $user->getUserById($id);
+
+                if($checkPass['password'] === md5($current_pass)){
+                    $newData = [
+                        'password' => md5($new_pass),
+                    ];
+
+                    $result = $user->changePass($id, $newData);
+
+                    if ($result) {
+                        $this->response->setJsonContent(['status' => 'success'])->send();
+                    }
+                }else{
+                    $this->response->setJsonContent(['status' => 'error', 'error' => 'Mật khẫu hiện tại không chính xác!'])->send();
+                }
+                
+
+                
+        } 
+    
     }
 }

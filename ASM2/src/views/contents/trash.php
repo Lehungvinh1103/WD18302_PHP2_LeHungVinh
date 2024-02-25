@@ -8,20 +8,23 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New Folder</h5>
+        <h5 class="modal-title" id="exampleModalLabel">File upload</h5>
         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form action="">
-          <input type="text" class="form-control" placeholder="Tên thư mục">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn bg-gradient-primary">Create</button>
-      </div>
+      <form id="uploadForm" method="post" class="" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group mb-0">
+            <input type="file" name="files[]" id="upload" class="account-file-input form-control" multiple />
+            <div class="form-message text-danger"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn bg-gradient-primary">Create</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -55,13 +58,6 @@
 </div> -->
 
 <div class="col-md-12">
-  <div class="filter d-flex align-items-center">
-    <h5>Bin for My File</h5>
-    <!-- <div class="input-group rounded-pill">
-            <a class="btn mb-0">Files</a>
-            <a class="btn mb-0"> Folders</a>
-        </div> -->
-  </div>
   <div class="mt-3 pt-0">
     <?php
     function formatSizeUnits($bytes)
@@ -76,8 +72,8 @@
 
       return round($bytes, 2) . ' ' . $units[$i];
     }
-    if (isset($deletedData)) : ?>
-      <div class="overflow-auto" style="max-height: 500px;">
+    if (!empty($deletedData)) : ?>
+      <div class="overflow-auto" style="max-height: 500px; min-height: 200px;">
         <table class="table-borderless table">
           <thead>
             <tr>
@@ -119,7 +115,7 @@
                 </td>
                 <td class="align-middle text-center text-sm">
                   <span class="badge badge-sm">
-                    <img width="30px" class="rounded-circle" src="../../../public/assets/img/team-1.jpg" alt="">
+                    <img width="30px" class="rounded-circle" src="<?php __DIR__?>/public/assets/img/no-img-user.png" alt="">
                   </span>
                 </td>
                 <td class="align-middle">
@@ -143,10 +139,12 @@
                         <button class="border-0" type="submit"><i class="bi bi-download me-1"></i><span class="font-weight-bold">Khôi phục</span></button>
                       </form>
                       <!-- <a class="dropdown-item" href="my-file?id=<?= $fileItems['file_id'] ?>"><i class="bi bi-download"></i> <label class="mb-0" for="">Download</label></a> -->
-                      <form id="formDelete" action="deleteFile" class="dropdown-item" method="post" enctype="multipart/form-data">
-                        <input type="text" hidden name="file_id" value="<?= $fileItems['file_id'] ?>">
-                        <button class="border-0" type="submit"> <i class="bi bi-trash me-1"></i><span class="font-weight-bold">Xóa vĩnh viễn</span>
-                        </button>
+                      <form id="formDelete_<?php echo $fileItems['file_id'] ?>" action="deleteFile" class="dropdown-item" method="post" enctype="multipart/form-data">
+                        <div class="form-group m-0">
+                          <input type="text" hidden name="file_id" value="<?= $fileItems['file_id'] ?>">
+                          <div class="form-message"></div>
+                        </div>
+                        <button class="border-0 btn-delete font-weight-bold" type="submit" data-id="<?php echo $fileItems['file_id'] ?>"> <i class="bi bi-trash me-1"></i>Xóa vĩnh viễn</button>
                       </form>
                       <!-- <li><a class="dropdown-item" href="javascript:;">Something else here</a></li> -->
                     </ul>

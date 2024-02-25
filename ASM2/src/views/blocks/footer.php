@@ -1,4 +1,4 @@
-<footer class="content-footer footer bg-footer-theme">
+<!-- <footer class="content-footer footer bg-footer-theme">
     <div class="container-xxl d-flex flex-wrap py-2 justify-content-center flex-md-row flex-column">
         <div class="mb-2 mb-md-0 text-center">
             ©
@@ -10,7 +10,7 @@
         </div>
 
     </div>
-</footer>
+</footer> -->
 
 
 <!--   Core JS Files   -->

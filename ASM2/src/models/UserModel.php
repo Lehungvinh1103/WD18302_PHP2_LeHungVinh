@@ -41,9 +41,21 @@ class UserModel extends BaseModel{
         return $data;
     }
 
-    public function test($id){
+    public function getUserById($id){
         
         return $this->table($this->_table)->getOne($id);
     }
+
+    public function updateUser($email, $dataUser){
+        $data = $this->table($this->_table)->where('email','=', $email)->updateQ($dataUser);
+        return $data;
+    }
+
+    public function changePass($id, $dataUser){
+        $data = $this->table($this->_table)->where('user_id','=', $id)->updateQ($dataUser);
+        return $data;
+    }
+
+
 
 }

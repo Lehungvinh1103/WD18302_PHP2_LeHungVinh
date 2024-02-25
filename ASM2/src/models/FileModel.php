@@ -44,6 +44,11 @@ class FileModel extends BaseModel{
         return $data;
     }
 
+    public function updateDownloadCount($file_id){
+        $data = $this->query("UPDATE files SET download_count = download_count + 1 WHERE file_id=$file_id");
+        return $data;
+    }
+
     public function listFileInTrash($user_id){
         $data = $this->select('*')->table($this->_table)->where('is_recycle', '=', '1')->where('user_id', '=', $user_id)->get();
         return $data;
@@ -56,6 +61,11 @@ class FileModel extends BaseModel{
 
     public function getAllFile_createdAt($user_id){
         $data = $this->select('*')->table($this->_table)->where('user_id', '=', $user_id)->where('is_recycle', '=', '0')->orderBy('updated_at', 'DESC')->get();
+        return $data;
+    }
+
+    public function rename($file_id, $dataUpdate){
+        $data = $this->table($this->_table)->where('file_id','=', $file_id)->updateQ($dataUpdate);
         return $data;
     }
 

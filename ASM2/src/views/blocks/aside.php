@@ -77,7 +77,7 @@
             </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Home</span>
+          <span class="nav-link-text ms-1">Trang chủ</span>
         </a>
       </li>
       <li class="nav-item">
@@ -121,11 +121,11 @@
             </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Trash</span>
+          <span class="nav-link-text ms-1">Thùng rác</span>
         </a>
       </li>
       <li class="nav-item mt-3">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Tài khoản</h6>
       </li>
       <li class="nav-item">
         <a class="nav-link " href="tai-khoan">
@@ -145,7 +145,7 @@
               </g>
             </svg>
           </div>
-          <span class="nav-link-text ms-1">Profile</span>
+          <span class="nav-link-text ms-1">Thông tin cá nhân</span>
         </a>
       </li>
     </ul>

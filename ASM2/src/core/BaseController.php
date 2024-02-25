@@ -37,4 +37,8 @@ class BaseController
         header('location:' . $url);
         
     }
+
+    public function getReferer() {
+        return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+    }
 }

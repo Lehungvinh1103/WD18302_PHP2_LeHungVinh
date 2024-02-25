@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-if (document.querySelector('#uploadForm')) {    
+if (document.querySelector('#uploadForm')) {
 
     Validator({
         form: '#uploadForm',
@@ -12,7 +12,7 @@ if (document.querySelector('#uploadForm')) {
         rules: [
             Validator.isRequired('input[name="files[]"', 'Vui lòng chọn file')
         ],
-        
+
         onSubmit: (data, e) => {
             const user_id = JSON.parse(localStorage.getItem('user')).user_id
             data.user_id = user_id;
@@ -22,12 +22,13 @@ if (document.querySelector('#uploadForm')) {
                 }
             })
                 .then(response => {
-                    if (response.data.status === 'success') {
+                    console.log(response.data);
+                    if (response.data.status == 'success') {
                         Swal.fire({
                             title: 'File tải lên thành công ',
                             icon: 'success',
                         }).then(result => {
-                            if(result.isConfirmed) {
+                            if (result.isConfirmed) {
                                 window.location.href = '/my-file';
                             }
                         })
@@ -45,3 +46,4 @@ if (document.querySelector('#uploadForm')) {
     })
 
 }
+

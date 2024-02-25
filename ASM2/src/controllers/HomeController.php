@@ -18,7 +18,7 @@ class HomeController extends BaseController
             $dataFile =  $fileModel->getAllFile_createdAt($user_id);
 
             $this->setLayout('mainLayout');
-            $this->render('home', ['title' => 'FileMaster', 'homeActive' => 'active', 'dataFile' => $dataFile]);
+            $this->render('home', ['title' => 'File Master', 'homeActive' => 'active', 'dataFile' => $dataFile]);
         } else {
             $this->redirect('dang-nhap');
         }
